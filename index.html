@@ -8,6 +8,28 @@
         <link rel="stylesheet" href="./assets/css/style.css">
     </head>
     <body>
+        <header>
+            <h1>Coding Quiz Challenge</h1>
+        </header>
+        <main id="quiz-container">
+            <div id="start-screen">
+                <h2>Let's begin the challenge!</h2>
+                <button id="start-btn">Start Quiz</button>
+            </div>
+            <form>
+                <div id="question-container" class="hide">
+                    <h3 id="question"></h3>
+                    <div id="options-container"></div>
+                </div>
+                <div id="end-screen" class="hide">
+                    <h2>Quiz Over!</h2>
+                    <p>Your score: <span id="final-score"></span></p>
+                    <label for="initials">Enter your initials:</label>
+                    <input type="text" id="initials">
+                    <button id="submit-score">Submit</button>
+                </div>  
+            </form>     
+        </main>
         <script src="./assets/js/script.js"></script>
     </body>
 </html>
