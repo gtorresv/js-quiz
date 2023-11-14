@@ -7,9 +7,15 @@ var questionText = document.getElementById('question');
 var finalScoreText = document.getElementById('final-score');
 var initialsInput = document.getElementById('initials');
 var submitScoreButton = document.getElementById('submit-score');
+var timerDisplay = document.getElementById('timer')
+
+// Quiz number variables for timer, score and questiones  
+var currentQuestionIndex = 0;
+var timer;
+var timerCount = 75;
+var score = 0;
 
 // Questions and answers 
-
 var questions = [
     {
         question: "Which of the following is a correct way to comment in JavaScript",
@@ -60,5 +66,79 @@ var questions = [
             "D. Concatenates two strings"
         ],
         correct: "A. Checks for equality, including type"
+    },
+];
+
+// Event listeners for buttons 
+startButton.addEventListener('click', startQuiz);
+submitScoreButton.addEventListener('click', saveScore);
+
+// Functions
+function startQuiz() {
+    startScreen.classList.add('hide');
+    quiz.classList.remove('hide');
+    loadQuestion();
+    startTimer();
+}
+
+function loadQuestion() {
+    const currentQuestion = questions[currentQuestionIndex];
+    questionText.textContent = currentQuestion.question;
+  
+    optionsContainer.innerHTML = '';
+    currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.classList.add("question-btn");
+        button.textContent = option;
+        button.addEventListener('click', () => checkAnswer(index));
+        optionsContainer.appendChild(button);
+    });
+}
+
+function checkAnswer(optionIndex) {
+    const currentQuestion = questions[currentQuestionIndex];
+  
+    if (currentQuestion.options[optionIndex] === currentQuestion.correctAnswer) {
+        score++;
+    } else {
+        timerCount -= 5; // Deduct 5 seconds if wrong answer
     }
-]
+  
+    currentQuestionIndex++;
+  
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        endQuiz();
+    }
+}  
+  
+function startTimer() {
+    timer = setInterval(() => {
+        timerCount--;
+    
+        if (timerCount <= 0) {
+            endQuiz();
+        }
+        timerDisplay.textContent = ("Time: " + timerCount);
+    }, 1000);
+}
+
+function endQuiz() {
+    clearInterval(timer);
+    quiz.classList.add('hide');
+    endScreen.classList.remove('hide');
+    finalScoreText.textContent = score;
+    timerDisplay.textContent = "Time: 0";
+}
+// TODO: Change how the score displays and save to local storage  
+function saveScore() {
+    const initials = initialsInput.value.trim();
+  
+    if (initials !== '') {
+      // Save the score and initials
+        alert(`Score saved: ${score} with initials ${initials}`);
+    } else {
+        alert('Please enter your initials.');
+    }
+}
