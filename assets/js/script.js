@@ -38,7 +38,7 @@ var questions = [
         correct: "D. Character"
     },
     {
-        question: "What does the this keyword refer to in JavaScript?",
+        question: "What does the `this` keyword refer to in JavaScript?",
         options: [
             "A. The current function's prototype",
             "B. The global object",
@@ -71,7 +71,11 @@ var questions = [
 
 // Event listeners for buttons 
 startButton.addEventListener('click', startQuiz);
-submitScoreButton.addEventListener('click', saveScore);
+submitScoreButton.addEventListener('click', function(event) {
+    event.preventDefault();
+    saveScore();
+    renderScores();
+});
 
 // Functions
 function startQuiz() {
@@ -136,9 +140,21 @@ function saveScore() {
     const initials = initialsInput.value.trim();
   
     if (initials !== '') {
+        console.log({ initials, score });
       // Save the score and initials
         alert(`Score saved: ${score} with initials ${initials}`);
+        localStorage.setItem("initials", JSON.stringify({initials, score}));
+        renderScores();
     } else {
         alert('Please enter your initials.');
+    }
+}
+
+function renderScores() {
+    var highScores = JSON.parse(localStorage.getItem("initials"));
+    if (highScores !== null) {
+        document.getElementById("high-scores").innerHTML = ("Score saved: " + highScores.score + " with initials " + highScores.initials);
+    } else {
+        return;
     }
 }
