@@ -98,7 +98,7 @@ function loadQuestion() {
 function checkAnswer(optionIndex) {
     const currentQuestion = questions[currentQuestionIndex];
   
-    if (currentQuestion.options[optionIndex] === currentQuestion.correctAnswer) {
+    if (currentQuestion.options[optionIndex] === currentQuestion.correct) {
         score++;
     } else {
         timerCount -= 5; // Deduct 5 seconds if wrong answer
