@@ -22,5 +22,9 @@ button {
     margin-top: 5px;
 }
 
+.question-btn {
+    display: flex;
+}
+
 /* style the question option buttons */
   
